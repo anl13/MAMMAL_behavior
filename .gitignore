@@ -1,4 +1,6 @@
 data/
 data.zip 
 nm_results/
-pig_render/
+results/
+__pycache__/
+*.zip

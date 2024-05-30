@@ -33,10 +33,10 @@ from OpenGL.GL import *
 import glfw
 from glfw.GLFW import *
 from numpy.lib.twodim_base import fliplr
-from pig_render.common import *
-from pig_render.Render import *
-from pig_render import MainRender
-from pig_render.Render import OBJ
+from pig_renderer.pig_render.common import *
+from pig_renderer.pig_render.Render import *
+from pig_renderer.pig_render import MainRender
+from pig_renderer.pig_render.Render import OBJ
 from bodymodel_np import BodyModelNumpy
 from time import time
 from time import sleep
@@ -661,7 +661,7 @@ if __name__ == "__main__":
     It takes about 2 minutes. 
     '''
     params = { 
-        "folder": "nm_results/individual_behavior", 
+        "folder": "results/individual_behavior", 
         "pca_n": 16, 
         "feature_name": "clip_features_type2", 
         "bandwidth": 0.03, 

@@ -2,7 +2,7 @@ import matplotlib.cm as cm
 import matplotlib.pyplot as plt 
 import numpy as np 
 import trimesh 
-from pig_render.Render import OBJ
+from pig_renderer.pig_render.Render import OBJ
 
 rgb = cm.get_cmap(plt.get_cmap('jet'))(np.linspace(0.0,1.0,256))[:,:3]
 bgr = rgb[:,(2,1,0)]

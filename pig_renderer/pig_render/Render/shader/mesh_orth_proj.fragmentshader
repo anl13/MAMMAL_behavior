@@ -1,0 +1,72 @@
+#version 330 core
+
+in vec2 UV;
+in vec3 Mynormal;
+in vec3 position;
+
+out vec3 color;
+
+uniform sampler2D myTextureSampler;
+uniform float SHweight_R[9];
+uniform float SHweight_G[9];
+uniform float SHweight_B[9];
+
+float shading(vec3 n, float L_SH[9])
+{
+    float H[9];
+    H[0] = 1.0f;
+    H[1] = n.y;
+    H[2] = n.z;
+    H[3] = n.x;
+    H[4] = n.x*n.y;
+    H[5] = n.y*n.z;
+    H[6] = -n.x*n.x - n.y*n.y + 2 * n.z*n.z;
+    H[7] = n.z*n.x;
+    H[8] = n.x*n.x - n.y*n.y;
+    float LH = 0;
+    for (int i = 0; i < 9; i++)
+    {
+        LH += L_SH[i] * H[i];
+    }
+    return LH;
+}
+
+void main()
+{
+    vec3 amb = texture(myTextureSampler, UV).rgb;
+    float SH_R = shading(Mynormal, SHweight_R);
+    float SH_G = shading(Mynormal, SHweight_G);
+    float SH_B = shading(Mynormal, SHweight_B);
+    vec3 shader = vec3(SH_R, SH_G, SH_B);
+    vec3 Mycolor = shader * amb;
+    color = Mycolor;
+    
+
+    vec3 light_direction = vec3(0, 1, 0);
+    vec3 LightColor = vec3(1, 1, 1);
+    float LightPower = 1f;
+
+    // Material properties
+    vec3 MaterialAmbientColor = vec3(0.15,0.15,0.15) * amb;
+    vec3 MaterialDiffuseColor = amb;
+
+    float cosTheta = clamp( -dot(Mynormal, light_direction), 0,1 );
+    cosTheta += 0.5*clamp( -dot(Mynormal, vec3(0, 0, 1)), 0,1 );
+
+    // Eye vector (towards the camera)
+    vec3 E = vec3(0, 0, 1);
+    // Direction in which the triangle reflects the light
+    vec3 R = reflect(light_direction, Mynormal);
+    // Cosine of the angle between the Eye vector and the Reflect vector,
+    // clamped to 0
+    //  - Looking into the reflection -> 1
+    //  - Looking elsewhere -> < 1
+    float cosAlpha = clamp( dot( E,R ), 0,1 );
+
+
+    color = 0.75 * shader * amb +
+        // Ambient : simulates indirect lighting
+        MaterialAmbientColor +
+        // Diffuse : "color" of the object
+        MaterialDiffuseColor * LightColor * LightPower * cosTheta;
+}

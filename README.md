@@ -15,7 +15,7 @@ pip install -r requirements.txt
 ```
 
 ## Prepare Data
-Download `data.zip` from [Google Drive](https://drive.google.com/file/d/1IsMo9StrDKh2gbrn0J8YRFQKKZCiFpbG/view?usp=sharing) or [Baidu Yun](https://pan.baidu.com/s/1dYr_5_QLpYqomlW0ApQ-vA) (extract code: jvc9) and unzip it under the main folder as  
+Download `data.zip` from [Google Drive](https://drive.google.com/file/d/173y4pbPyORlzhmNQ5TG-6gJ_MCpn1ZOz/view?usp=drive_link) and unzip it under the main folder as  
 ```
 `-- MAMMAL_behavior
     |-- data/
@@ -62,11 +62,14 @@ This file will read `data/batch5_nm/` data sequence (1000 frames) and write vide
 If you use these datasets in your research, please cite the paper
 
 ```BibTex
-@article{MAMMAL, 
-    author = {An, Liang and Ren, Jilong and Yu, Tao and Hai, Tang and Jia, Yichang and Liu, Yebin},
-    title = {Three-dimensional surface motion capture of multiple freely moving pigs using MAMMAL},
-    booktitle = {},
-    month = {July},
-    year = {2022}
+@article{an2023three,
+  title={Three-dimensional surface motion capture of multiple freely moving pigs using MAMMAL},
+  author={An, Liang and Ren, Jilong and Yu, Tao and Hai, Tang and Jia, Yichang and Liu, Yebin},
+  journal={Nature Communications},
+  volume={14},
+  number={1},
+  pages={7727},
+  year={2023},
+  publisher={Nature Publishing Group UK London}
 }
 ```

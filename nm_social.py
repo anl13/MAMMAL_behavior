@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm   
 from bodymodel_np import BodyModelNumpy
 from tqdm import tqdm 
-from pig_render.Render import OBJ
+from pig_renderer.pig_render.Render import OBJ
 import mpl_toolkits.axisartist as axisartist
 import matplotlib.patches as mpatches 
 from matplotlib.lines import Line2D
@@ -18,6 +18,7 @@ from shapely.geometry import Polygon
 import cv2 
 from videoio import VideoWriter
 from PIL import ImageFont, ImageDraw, Image 
+import os 
 
 font_list= [
     "arial.ttf"
@@ -223,7 +224,10 @@ def behavior_analysis():
 
 
 def draw_behavior(): 
-    cap  = cv2.VideoCapture("nm_results/social_behavior/batch5_rend.mp4") 
+    os.makedirs("results", exist_ok=True)
+    out_dir = "results/social_behavior" 
+    os.makedirs(out_dir, exist_ok=True) 
+    cap  = cv2.VideoCapture("data/batch5_nm/batch5_rend.mp4") 
     with open("data/batch5_nm/nm_social2.pkl", 'rb') as f: 
         behavior = pickle.load(f) 
     behavior_names = [ 
@@ -238,7 +242,7 @@ def draw_behavior():
         "mount",
         "lean mount"  ## not used .
     ]
-    writer = VideoWriter("nm_results/social_behavior/batch5_behavior.mp4", (960, 540), fps=25)
+    writer = VideoWriter(os.path.join(out_dir, "batch5_behavior.mp4"), (960, 540), fps=25)
 
     for i in tqdm(range(1000)): 
         _, img = cap.read()
@@ -309,8 +313,9 @@ def plot_behavior_chart():
     plt.yticks([]) 
 
     # plt.show()
-    plt.savefig("nm_results/social_behavior/Fig.2g.png", dpi=1000, bbox_inches="tight")
-    plt.savefig("nm_results/social_behavior/Fig.2g.svg", dpi=1000, bbox_inches="tight")
+    out_dir = "results/social_behavior" 
+    os.makedirs(out_dir, exist_ok=True) 
+    plt.savefig(os.path.join(out_dir, "Fig.2g.png"), dpi=1000, bbox_inches="tight")
 
 if __name__ == "__main__":
 

@@ -11,6 +11,7 @@ from videoio import VideoWriter
 import matplotlib as mpl 
 import matplotlib.patches as mpatches 
 from matplotlib.lines import Line2D
+import os 
 
 def check_drink(skel, criterion):
     target1 = np.asarray([-0.73902, 0.811039, 0.240614])
@@ -117,6 +118,8 @@ def draw_drink_label(img, index, posindex, label="drink"):
 ## 2022.07.26
 ## draw new fig, smaller. 
 def eat_supp_fig_new(): 
+    out_dir = "results/scene_behavior"
+    os.makedirs(out_dir, exist_ok=True)
     all_drinks = []
     for k in range(4): 
         with open("data/drink_data/0705_10/eat_{}.pkl".format(k), 'rb') as f: 
@@ -169,8 +172,9 @@ def eat_supp_fig_new():
                 ax.barh(0.5, width[k], height=1, left=0, facecolor=c[int(width_label[k])], edgecolor=(0,0,0), linewidth=0.2, linestyle='--')
             ax.barh(0.5, width[k], height=1, left=width[0:k].sum(),facecolor=c[int(width_label[k])], edgecolor=(0,0,0), linewidth=0.2, linestyle='--') 
         ax.set_ylim(0,1.1)
-        # ax.set_xlim(0,1000)
-        ax.set_xticks([0,500,1000], [0,20,40], fontsize=7)
+        ax.set_xlim(0,1000)
+        ax.set_xticks([0,500,1000], ["0","20","40"])
+        ax.set_xticklabels(["0","20","40"], fontsize=7)
         ax.set_yticks([])
         ax.set_ylabel("Pig{}".format(pid+1), fontsize=7, rotation=0, color=c[2])
         # ax.scatter([frameindex], [all_drinks[k][frameindex]], s=15, color=c, edgecolors=c * 0.5)
@@ -200,12 +204,13 @@ def eat_supp_fig_new():
         ax.plot(1, 0, ">k", markersize=0.8, transform=ax.get_yaxis_transform(), clip_on=False)
 
     plt.xlabel("Time (s)", fontsize=7)
-    plt.savefig("nm_results/scene_behavior/eat.png", dpi=1000, bbox_inches="tight")
-    plt.savefig("nm_results/scene_behavior/eat.svg", dpi=1000, bbox_inches="tight")
+    plt.savefig(os.path.join(out_dir, "eat.png"), dpi=1000, bbox_inches="tight")
 
 
 
 def drink_supp_fig_new(): 
+    out_dir = "results/scene_behavior" 
+    os.makedirs(out_dir, exist_ok=True )
     all_drinks = []
     for k in range(4): 
         with open("data/drink_data/1005/drink_{}.pkl".format(k), 'rb') as f: 
@@ -260,7 +265,8 @@ def drink_supp_fig_new():
             ax.barh(0.5, width[k], height=1, left=width[0:k].sum(), facecolor=c[int(width_label[k])], edgecolor=(0,0,0), linewidth=0.2, linestyle='--') 
         ax.set_ylim(0,1.1)
         # ax.set_xlim(0,1000)
-        ax.set_xticks([0,500,1000], [0,20,40], fontsize=7)
+        ax.set_xticks([0,500,1000], ["0","20","40"])
+        ax.set_xticklabels(["0","20","40"], fontsize=7)
         ax.set_yticks([])
         ax.set_ylabel("Pig{}".format(pid+1), fontsize=7, rotation=0, color=c[2])
         # ax.scatter([frameindex], [all_drinks[k][frameindex]], s=15, color=c, edgecolors=c * 0.5)
@@ -290,10 +296,10 @@ def drink_supp_fig_new():
         ax.plot(1, 0, ">k", markersize=0.8, transform=ax.get_yaxis_transform(), clip_on=False)
 
     plt.xlabel("Time (s)", fontsize=7)
-    plt.savefig("nm_results/scene_behavior/drink.png", dpi=1000, bbox_inches="tight")
-    plt.savefig("nm_results/scene_behavior/drink.svg", dpi=1000, bbox_inches="tight")
+    plt.savefig(os.path.join(out_dir, "drink.png"), dpi=1000, bbox_inches="tight")
 
 if __name__ == "__main__":
+    os.makedirs("results", exist_ok=True)
     check_eat_seq() 
     check_drink_seq() 
     drink_supp_fig_new() 
